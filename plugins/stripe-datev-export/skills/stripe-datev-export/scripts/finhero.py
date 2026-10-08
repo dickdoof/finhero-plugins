@@ -10,6 +10,9 @@ Create one at https://fin-hero.de/dashboard/settings/#api
   finhero.py status EXPORT_ID
   finhero.py wait EXPORT_ID [--timeout SECONDS]
   finhero.py download EXPORT_ID [--out DIR]
+  finhero.py setup-status [--validate]
+  finhero.py set-provider-key --provider STRIPE [--secondary-id ID]   (key from stdin or FINHERO_PROVIDER_KEY)
+  finhero.py set-accounts --system DATEV [--activate] field=value [field=value ...]
 
 Every command prints one JSON object on stdout. Exit code 0 = ok, 1 = API/usage error,
 2 = missing or invalid token, 3 = export failed or timed out.
@@ -71,7 +74,8 @@ def request(method, path, body=None, raw=False):
             return json.loads(payload or b"null")
     except urllib.error.HTTPError as e:
         try:
-            message = json.loads(e.read()).get("error") or e.reason
+            payload = json.loads(e.read())
+            message = payload.get("error") or payload.get("reason") or e.reason
         except Exception:
             message = e.reason
         code = 2 if e.code in (401, 403) else 1
@@ -133,6 +137,27 @@ def download(export_id, out_dir):
     return {"path": str(path), "bytes": len(payload)}
 
 
+def read_provider_key():
+    # Never take the key as an argument: it would end up in shell history and the transcript.
+    value = os.environ.get("FINHERO_PROVIDER_KEY", "").strip()
+    if not value and not sys.stdin.isatty():
+        value = sys.stdin.read().strip()
+    if not value:
+        raise ApiError("No provider key. Pipe it in (e.g. `pbpaste | finhero.py set-provider-key ...`) "
+                       "or set FINHERO_PROVIDER_KEY.")
+    return value
+
+
+def parse_assignments(pairs):
+    accounts = {}
+    for pair in pairs:
+        if "=" not in pair:
+            raise ApiError(f"Expected field=value, got {pair!r}")
+        name, value = pair.split("=", 1)
+        accounts[name.strip()] = value.strip()
+    return accounts
+
+
 def valid_date(value):
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
         raise argparse.ArgumentTypeError("use YYYY-MM-DD")
@@ -161,6 +186,15 @@ def main():
     dl = sub.add_parser("download")
     dl.add_argument("id")
     dl.add_argument("--out", default="finhero-exports")
+    ss = sub.add_parser("setup-status")
+    ss.add_argument("--validate", action="store_true", help="also check stored provider keys")
+    pk = sub.add_parser("set-provider-key")
+    pk.add_argument("--provider", default="STRIPE", type=str.upper, choices=PROVIDERS)
+    pk.add_argument("--secondary-id", help="PayPal Client-ID or Adyen balance account")
+    sa = sub.add_parser("set-accounts")
+    sa.add_argument("--system", default="DATEV", type=str.upper, choices=FORMATS)
+    sa.add_argument("--activate", action="store_true", help="switch the system on for the monthly auto-export")
+    sa.add_argument("fields", nargs="+", metavar="field=value")
     a = p.parse_args()
 
     try:
@@ -169,6 +203,17 @@ def main():
             out({"ok": True, "base_url": BASE_URL, "latest_export": summarize(latest[0]) if latest else None})
         if a.cmd == "list":
             out({"exports": [summarize(r) for r in rows(request("GET", f"/api/v1/data?limit={max(1, a.limit)}"))]})
+        if a.cmd == "setup-status":
+            out(request("GET", "/api/v1/setup" + ("?validate=1" if a.validate else "")))
+        if a.cmd == "set-provider-key":
+            body = {"provider": a.provider, "api_key": read_provider_key()}
+            if a.secondary_id:
+                body["secondary_id"] = a.secondary_id
+            out(request("PUT", "/api/v1/setup/provider", body))
+        if a.cmd == "set-accounts":
+            out(request("PUT", "/api/v1/setup/accounting", {
+                "system": a.system, "accounts": parse_assignments(a.fields), "activate": a.activate,
+            }))
         if a.cmd == "status":
             out(summarize(get_export(a.id)))
         if a.cmd == "download":

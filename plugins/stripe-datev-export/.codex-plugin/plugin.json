@@ -1,6 +1,6 @@
 {
   "name": "stripe-datev-export",
-  "version": "2026.10.1",
+  "version": "2026.10.2",
   "homepage": "https://fin-hero.de",
   "repository": "https://github.com/dickdoof/finhero-plugins",
   "interface": {

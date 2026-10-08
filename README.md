@@ -55,7 +55,7 @@ codex plugin add stripe-datev-export@finhero
    and enter your DATEV consultant and client number.
 2. Create an API token under
    [Settings → API & Claude](https://fin-hero.de/dashboard/settings/#api).
-3. Save it locally, then say **"Set up finHero"** to Claude:
+3. Save it locally, then say **"Richte finHero ein"** / **"Set up finHero"**. Claude connects Stripe, enters your DATEV numbers and accounts, and runs a test export:
 
 ```bash
 mkdir -p ~/.config/finhero && chmod 700 ~/.config/finhero
@@ -67,7 +67,7 @@ printf '%s\n' 'fh_live_…' > ~/.config/finhero/token && chmod 600 ~/.config/fin
 
 | Skill | What it does |
 |---|---|
-| `finhero-onboard` | Checks the token with a read-only call and walks you through setup. |
+| `finhero-onboard` | Sets up finHero in the chat: checks the API token, stores and verifies the Stripe (or PayPal, Mollie…) key, enters the DATEV consultant and client number, proposes SKR03/SKR04 accounts and runs a test export. |
 | `stripe-datev-export` | Turns "last month", "Q3 2026" or "September" into a date range. Creates the export (DATEV, BMD, bexio or Abacus) for Stripe, PayPal, Mollie, Adyen, Paddle or Lemon Squeezy, waits and downloads it. It can also list and re-download earlier exports. |
 
 The skills call a small Python script (standard library only):

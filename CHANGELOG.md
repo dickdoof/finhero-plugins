@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026.10.2
+
+- `finhero-onboard` now runs the whole setup in the chat: provider key
+  (piped in, never shown in the chat), DATEV consultant and client number,
+  SKR03/SKR04 account suggestions, and a test export.
+- New script commands: `setup-status`, `set-provider-key`, `set-accounts`.
+
 ## 2026.10.1
 
 - Renamed the export skill to `stripe-datev-export`. Its description now
