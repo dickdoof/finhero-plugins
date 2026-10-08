@@ -25,14 +25,14 @@ app and CLI.
 
 ```bash
 claude plugin marketplace add dickdoof/finhero-plugins
-claude plugin install stripe-datev-export@finhero --scope user
+claude plugin install finhero-datev-export@finhero --scope user
 ```
 
 **Claude Code (desktop app)**
 
 ```
 /plugin marketplace add dickdoof/finhero-plugins
-/plugin install stripe-datev-export@finhero
+/plugin install finhero-datev-export@finhero
 ```
 
 Pick **User scope** when asked.
@@ -45,7 +45,7 @@ Pick **User scope** when asked.
 
 ```bash
 codex plugin marketplace add dickdoof/finhero-plugins
-codex plugin add stripe-datev-export@finhero
+codex plugin add finhero-datev-export@finhero
 ```
 
 ## Set up
@@ -73,7 +73,7 @@ printf '%s\n' 'fh_live_…' > ~/.config/finhero/token && chmod 600 ~/.config/fin
 The skills call a small Python script (standard library only):
 
 ```bash
-python3 plugins/stripe-datev-export/skills/stripe-datev-export/scripts/finhero.py \
+python3 plugins/finhero-datev-export/skills/stripe-datev-export/scripts/finhero.py \
   create --start 2026-09-01 --end 2026-09-30 --format DATEV --wait
 ```
 
@@ -98,7 +98,7 @@ finHero as in the dashboard. See [PRIVACY.md](PRIVACY.md).
 ```
 .claude-plugin/marketplace.json        Claude Code catalog
 .agents/plugins/marketplace.json       Codex catalog
-plugins/stripe-datev-export/
+plugins/finhero-datev-export/
   .claude-plugin/plugin.json           Claude Code manifest
   .codex-plugin/plugin.json            Codex manifest
   skills/finhero-onboard/SKILL.md

@@ -13,5 +13,5 @@ jobs:
         with:
           python-version: "3.12"
       - run: python scripts/validate_repo.py
-      - run: python -m py_compile plugins/stripe-datev-export/skills/stripe-datev-export/scripts/finhero.py
-      - run: python plugins/stripe-datev-export/skills/stripe-datev-export/scripts/finhero.py --help
+      - run: python -m py_compile plugins/finhero-datev-export/skills/stripe-datev-export/scripts/finhero.py
+      - run: python plugins/finhero-datev-export/skills/stripe-datev-export/scripts/finhero.py --help

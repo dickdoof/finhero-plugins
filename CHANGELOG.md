@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026.10.3
+
+- Plugin renamed to `finhero-datev-export` for the Claude plugin directory
+  (brand names are not allowed in plugin names). Install with
+  `finhero-datev-export@finhero`. The skill is still called `stripe-datev-export`.
+- Added MIT license, plugin README and directory listing fields (icon,
+  documentation, support, privacy policy and terms URLs).
+
 ## 2026.10.2
 
 - `finhero-onboard` now runs the whole setup in the chat: provider key
