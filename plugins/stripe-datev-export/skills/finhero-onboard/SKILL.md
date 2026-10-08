@@ -1,6 +1,6 @@
 ---
 name: finhero-onboard
-description: Set up the finHero plugin. Trigger on "set up finHero", "connect finHero", "onboard", "get started" when they concern finHero, DATEV exports or Stripe Buchhaltung; on first use of datev-export; and whenever datev-export reports a missing or invalid token (exit code 2). Verifies the API token with a read-only call and explains how to create one.
+description: Set up the finHero plugin. Trigger on "set up finHero", "connect finHero", "onboard", "get started" when they concern finHero, DATEV exports or Stripe Buchhaltung; on first use of stripe-datev-export; and whenever stripe-datev-export reports a missing or invalid token (exit code 2). Verifies the API token with a read-only call and explains how to create one.
 ---
 
 # finHero onboarding
@@ -13,7 +13,7 @@ Reply in the user's language (German if unsure).
 ## Step 1: Check
 
 ```
-python3 <plugin-root>/skills/datev-export/scripts/finhero.py check
+python3 <plugin-root>/skills/stripe-datev-export/scripts/finhero.py check
 ```
 
 `<plugin-root>` is the parent of this skill's `skills/` folder.

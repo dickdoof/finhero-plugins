@@ -1,4 +1,4 @@
-# finHero Plugins for Claude & Codex
+# Stripe DATEV Export for Claude & Codex (finHero)
 
 Plugins and agent skills by [finHero](https://fin-hero.de), the automatic
 [Stripe to DATEV export](https://fin-hero.de/knowledge/stripe-datev-export/).
@@ -68,12 +68,12 @@ printf '%s\n' 'fh_live_…' > ~/.config/finhero/token && chmod 600 ~/.config/fin
 | Skill | What it does |
 |---|---|
 | `finhero-onboard` | Checks the token with a read-only call and walks you through setup. |
-| `datev-export` | Turns "last month", "Q3 2026" or "September" into a date range. Creates the export (DATEV, BMD, bexio or Abacus) for Stripe, PayPal, Mollie, Adyen, Paddle or Lemon Squeezy, waits and downloads it. It can also list and re-download earlier exports. |
+| `stripe-datev-export` | Turns "last month", "Q3 2026" or "September" into a date range. Creates the export (DATEV, BMD, bexio or Abacus) for Stripe, PayPal, Mollie, Adyen, Paddle or Lemon Squeezy, waits and downloads it. It can also list and re-download earlier exports. |
 
 The skills call a small Python script (standard library only):
 
 ```bash
-python3 plugins/stripe-datev-export/skills/datev-export/scripts/finhero.py \
+python3 plugins/stripe-datev-export/skills/stripe-datev-export/scripts/finhero.py \
   create --start 2026-09-01 --end 2026-09-30 --format DATEV --wait
 ```
 
@@ -102,8 +102,8 @@ plugins/stripe-datev-export/
   .claude-plugin/plugin.json           Claude Code manifest
   .codex-plugin/plugin.json            Codex manifest
   skills/finhero-onboard/SKILL.md
-  skills/datev-export/SKILL.md
-  skills/datev-export/scripts/finhero.py
+  skills/stripe-datev-export/SKILL.md
+  skills/stripe-datev-export/scripts/finhero.py
 scripts/validate_repo.py               CI checks
 site/                                  GitHub Pages landing page
 ```

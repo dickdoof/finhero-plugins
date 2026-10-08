@@ -8,9 +8,61 @@
   "plugins": [
     {
       "name": "stripe-datev-export",
-      "displayName": "Stripe DATEV Export by finHero",
+      "displayName": "Stripe DATEV Export (finHero)",
       "source": "./plugins/stripe-datev-export",
-      "description": "Create and download finHero exports of Stripe, PayPal, Mollie, Adyen, Paddle and Lemon Squeezy transactions for any period: DATEV Buchungsstapel with fees, refunds, payouts, receipts and PRAP list, or BMD, bexio and Abacus."
+      "description": "Create and download finHero exports of Stripe, PayPal, Mollie, Adyen, Paddle and Lemon Squeezy transactions for any period: DATEV Buchungsstapel with fees, refunds, payouts, receipts and PRAP list, or BMD, bexio and Abacus.",
+      "keywords": [
+        "stripe datev export",
+        "stripe buchhaltung",
+        "stripe zu datev",
+        "datev",
+        "buchungsstapel",
+        "stripe",
+        "accounting",
+        "bookkeeping",
+        "steuerberater",
+        "bmd",
+        "bexio",
+        "abacus",
+        "paypal",
+        "mollie"
+      ],
+      "relevance": {
+        "topic": "Stripe DATEV Export",
+        "signals": {
+          "cli": [
+            "stripe"
+          ],
+          "filesRead": [
+            "**/EXTF_*.csv",
+            "**/*[Dd][Aa][Tt][Ee][Vv]*.csv",
+            "**/*Buchungsstapel*"
+          ],
+          "cwd": [
+            "**/[Bb]uchhaltung*",
+            "**/[Ss]teuerberater*",
+            "**/*datev*"
+          ],
+          "manifestDeps": [
+            {
+              "file": "package\\.json$",
+              "pattern": "\"stripe\""
+            },
+            {
+              "file": "(requirements\\.txt|pyproject\\.toml)$",
+              "pattern": "stripe"
+            },
+            {
+              "file": "composer\\.json$",
+              "pattern": "stripe/stripe-php"
+            },
+            {
+              "file": "Gemfile$",
+              "pattern": "stripe"
+            }
+          ]
+        }
+      }
     }
   ]
 }

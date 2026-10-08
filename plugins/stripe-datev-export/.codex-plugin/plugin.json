@@ -1,10 +1,10 @@
 {
   "name": "stripe-datev-export",
-  "version": "2026.10.0",
+  "version": "2026.10.1",
   "homepage": "https://fin-hero.de",
   "repository": "https://github.com/dickdoof/finhero-plugins",
   "interface": {
-    "displayName": "Stripe DATEV Export by finHero",
+    "displayName": "Stripe DATEV Export (finHero)",
     "shortDescription": "Stripe to DATEV export",
     "longDescription": "Create and download finHero exports of Stripe, PayPal, Mollie, Adyen, Paddle and Lemon Squeezy transactions for any period: DATEV Buchungsstapel with fees, refunds, payouts, receipts and PRAP list, or BMD, bexio and Abacus.",
     "developerName": "finHero",
