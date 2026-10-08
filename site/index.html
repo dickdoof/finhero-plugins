@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stripe DATEV Export für Claude – Stripe Buchhaltung per Skill | finHero</title>
+<meta name="description" content="Claude-Plugin für die Stripe Buchhaltung: DATEV-Export von Stripe, PayPal, Mollie & Co. für jeden Zeitraum per Satz erstellen und herunterladen. Mit finHero.">
+<link rel="canonical" href="https://dickdoof.github.io/finhero-plugins/">
+<link rel="icon" href="icon.png">
+<meta property="og:title" content="Stripe DATEV Export für Claude & Codex">
+<meta property="og:description" content="DATEV-Export für jeden Zeitraum per Satz: „Erstelle den DATEV-Export für September.“">
+<meta property="og:url" content="https://dickdoof.github.io/finhero-plugins/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Stripe DATEV Export by finHero","applicationCategory":"BusinessApplication","operatingSystem":"Claude Code, Claude Cowork, Codex","url":"https://dickdoof.github.io/finhero-plugins/","publisher":{"@type":"Organization","name":"finHero","url":"https://fin-hero.de"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}
+</script>
+<style>
+:root{--bg:#fff;--fg:#111827;--muted:#6b7280;--line:#e5e7eb;--accent:#059669;--code:#f3f4f6}
+@media (prefers-color-scheme:dark){:root{--bg:#0b0f14;--fg:#e5e7eb;--muted:#9ca3af;--line:#1f2937;--accent:#34d399;--code:#111827}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:760px;margin:0 auto;padding:48px 16px 64px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+header img{width:40px;height:40px;border-radius:8px}
+h1{font-size:2rem;line-height:1.2;margin:0 0 12px}
+h2{font-size:1.3rem;margin:40px 0 8px}
+p,li{color:var(--fg)}
+.lead{font-size:1.15rem;color:var(--muted)}
+a{color:var(--accent)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto;font-size:.9rem}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);color:var(--muted)}
+.cta{display:inline-block;margin-top:8px;padding:10px 18px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;font-weight:600}
+footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <img src="icon.png" alt="finHero Logo">
+  <strong>Stripe DATEV Export · ein Plugin von <a href="https://fin-hero.de">finHero</a></strong>
+</header>
+
+<h1>Stripe Buchhaltung mit Claude: DATEV-Export für jeden Zeitraum</h1>
+<p class="lead">Ein Satz an Claude, und der fertige DATEV-Export liegt in deinem Ordner.
+Für Stripe, PayPal, Mollie, Adyen, Paddle und Lemon Squeezy.</p>
+
+<blockquote>„Erstelle den DATEV-Export für September.“<br>„Export Stripe und PayPal für Q3 nach ./buchhaltung.“</blockquote>
+
+<p>Claude bestimmt den Zeitraum, bestellt den Export bei
+<a href="https://fin-hero.de">finHero</a>, wartet und speichert die ZIP-Datei. Darin
+sind der DATEV-Buchungsstapel mit Gebühren, Refunds und Payouts als Geldtransit, die
+Belege und die PRAP-Liste für Abos. Für Österreich und die Schweiz gibt es BMD, bexio
+und Abacus.</p>
+
+<a class="cta" href="https://fin-hero.de/">finHero kostenlos testen</a>
+
+<h2>Installation</h2>
+<p>Claude Code:</p>
+<pre><code>claude plugin marketplace add dickdoof/finhero-plugins
+claude plugin install stripe-datev-export@finhero --scope user</code></pre>
+<p>Codex:</p>
+<pre><code>codex plugin marketplace add dickdoof/finhero-plugins
+codex plugin add stripe-datev-export@finhero</code></pre>
+<p>Danach in den <a href="https://fin-hero.de/dashboard/settings/#api">finHero-Einstellungen</a>
+einen API-Token erstellen und Claude sagen: „Richte finHero ein“. Quellcode und
+Anleitung: <a href="https://github.com/dickdoof/finhero-plugins">github.com/dickdoof/finhero-plugins</a>.</p>
+
+<h2>Was gehört in die Stripe Buchhaltung?</h2>
+<p>Stripe zahlt nicht einzelne Umsätze aus, sondern Sammel-Payouts abzüglich Gebühren.
+Für DATEV brauchst du deshalb jede Zahlung, jede Gebühr, jeden Refund und jeden Payout
+einzeln. Die Details stehen in diesen Leitfäden:</p>
+<ul>
+  <li><a href="https://fin-hero.de/knowledge/stripe-buchhaltung-deutschland-datev/">Stripe Buchhaltung in Deutschland: Was muss in DATEV landen?</a></li>
+  <li><a href="https://fin-hero.de/knowledge/stripe-gebuehren-datev-buchen/">Stripe-Gebühren in DATEV buchen</a></li>
+  <li><a href="https://fin-hero.de/knowledge/stripe-zu-datev-exportieren/">Stripe zu DATEV exportieren</a></li>
+  <li><a href="https://fin-hero.de/knowledge/stripe-datev-schnittstelle/">Stripe DATEV Schnittstelle</a></li>
+  <li><a href="https://fin-hero.de/knowledge/prap-saas-abos-stripe/">PRAP für SaaS-Abos mit Stripe</a></li>
+</ul>
+
+<h2>Datenschutz</h2>
+<p>Das Plugin läuft lokal und spricht nur mit fin-hero.de. Dein Token bleibt auf deinem
+Rechner. Details in der <a href="https://github.com/dickdoof/finhero-plugins/blob/main/PRIVACY.md">PRIVACY.md</a>.</p>
+
+<footer>
+  <a href="https://fin-hero.de">finHero</a> – automatischer Stripe-DATEV-Export ·
+  d-automation GmbH · <a href="mailto:support@fin-hero.de">support@fin-hero.de</a><br>
+  Stripe und DATEV sind Marken ihrer Inhaber. Kein offizielles Produkt von Stripe oder DATEV.
+</footer>
+</main>
+</body>
+</html>

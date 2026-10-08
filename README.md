@@ -2,6 +2,7 @@
 
 Plugins and agent skills by [finHero](https://fin-hero.de), the automatic
 [Stripe to DATEV export](https://fin-hero.de/knowledge/stripe-datev-export/).
+Website: [dickdoof.github.io/finhero-plugins](https://dickdoof.github.io/finhero-plugins/)
 
 **Stripe DATEV Export** lets Claude create and download your accounting
 export for any period from a single sentence:
@@ -104,6 +105,7 @@ plugins/stripe-datev-export/
   skills/datev-export/SKILL.md
   skills/datev-export/scripts/finhero.py
 scripts/validate_repo.py               CI checks
+site/                                  GitHub Pages landing page
 ```
 
 ## Support
