@@ -55,27 +55,23 @@ codex plugin add finhero-datev-export@finhero
    and enter your DATEV consultant and client number.
 2. Create an API token under
    [API & Claude (side menu)](https://fin-hero.de/dashboard/api/).
-3. Save it locally, then say **"Richte finHero ein"** / **"Set up finHero"**. Claude connects Stripe, enters your DATEV numbers and accounts, and runs a test export:
-
-```bash
-mkdir -p ~/.config/finhero && chmod 700 ~/.config/finhero
-printf '%s\n' 'fh_live_…' > ~/.config/finhero/token && chmod 600 ~/.config/finhero/token
-# or: export FINHERO_API_KEY=fh_live_…
-```
+3. Enter it when Claude Code asks while enabling the plugin, or later via
+   `/plugin` → **finhero-datev-export** → **Configure options**. It is kept in
+   your system's secure credential store.
+4. Say **"Richte finHero ein"** / **"Set up finHero"**. Claude checks the
+   connection, enters your DATEV numbers and accounts, and runs a test export.
 
 ## Skills
 
 | Skill | What it does |
 |---|---|
-| `finhero-onboard` | Sets up finHero in the chat: checks the API token, stores and verifies the Stripe (or PayPal, Mollie…) key, enters the DATEV consultant and client number, proposes SKR03/SKR04 accounts and runs a test export. |
+| `finhero-onboard` | Sets up finHero in the chat: checks the API token and the connected Stripe (or PayPal, Mollie…) key, enters the DATEV consultant and client number, proposes SKR03/SKR04 accounts and runs a test export. |
 | `stripe-datev-export` | Turns "last month", "Q3 2026" or "September" into a date range. Creates the export (DATEV, BMD, bexio or Abacus) for Stripe, PayPal, Mollie, Adyen, Paddle or Lemon Squeezy, waits and downloads it. It can also list and re-download earlier exports. |
 
-The skills call a small Python script (standard library only):
-
-```bash
-python3 plugins/finhero-datev-export/skills/stripe-datev-export/scripts/finhero.py \
-  create --start 2026-09-01 --end 2026-09-30 --format DATEV --wait
-```
+The skills use the plugin's bundled `finhero` MCP server
+(`mcp/finhero_mcp.py`, Python standard library only) with the tools
+`check`, `list_exports`, `create_export`, `wait_for_export`,
+`download_export`, `setup_status` and `set_accounts`.
 
 ## Stripe Buchhaltung in Germany
 
@@ -102,8 +98,9 @@ plugins/finhero-datev-export/
   .claude-plugin/plugin.json           Claude Code manifest
   .codex-plugin/plugin.json            Codex manifest
   skills/finhero-onboard/SKILL.md
+  .mcp.json                            MCP server config (token from userConfig)
+  mcp/finhero_mcp.py                   finHero MCP server
   skills/stripe-datev-export/SKILL.md
-  skills/stripe-datev-export/scripts/finhero.py
 scripts/validate_repo.py               CI checks
 site/                                  GitHub Pages landing page
 ```

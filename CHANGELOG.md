@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.10.4
+
+- The finHero API token is now a sensitive plugin option (`userConfig.api_token`),
+  stored by Claude Code in the secure credential store, instead of an environment
+  variable or a file in the home directory (Claude plugin directory policy).
+- The skills use a bundled `finhero` MCP server (`mcp/finhero_mcp.py`) with the
+  tools check, list_exports, create_export, wait_for_export, download_export,
+  setup_status and set_accounts. The old `finhero.py` script is gone.
+- Payment provider keys are entered on fin-hero.de; the plugin never handles them.
+
 ## 2026.10.3
 
 - Plugin renamed to `finhero-datev-export` for the Claude plugin directory

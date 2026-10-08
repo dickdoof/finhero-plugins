@@ -12,10 +12,11 @@ fees, refunds, payouts (Geldtransit), receipts and the PRAP list for
 subscriptions. This skill only orders and fetches it. It never computes
 bookings itself.
 
-All API calls go through `scripts/finhero.py` in this skill's directory.
-Run it with `python3 <skill-dir>/scripts/finhero.py ...`. Every command
-prints one JSON object. Exit codes: 0 ok, 1 error, 2 token missing or
-invalid, 3 export failed or timed out.
+All API calls go through the plugin's `finhero` MCP tools: `check`,
+`list_exports`, `create_export`, `wait_for_export`, `download_export`.
+The API token is configured in the plugin (`/plugin` → finhero-datev-export →
+Configure options). If a tool reports a missing or rejected token, hand over
+to `finhero-onboard`.
 
 ## 1. Resolve the period
 
@@ -44,26 +45,21 @@ Use today's date for relative periods.
 
 ## 3. Create, wait, download
 
-Run:
-
-```
-python3 <skill-dir>/scripts/finhero.py create --start 2026-09-01 --end 2026-09-30 --provider STRIPE --format DATEV --wait --out finhero-exports
-```
-
-- `--wait` polls until the export is `COMPLETED` or `ERROR` (default limit
-  15 minutes), then downloads the ZIP to `--out`. Use the current project
-  folder unless the user names another.
-- On exit code 3 with status `PENDING` or `IN_PROGRESS`, tell the user the
-  export ID and continue later with `wait <id>`, then `download <id>`.
-- On status `ERROR`, show `error_message` verbatim. Common causes are a
-  missing or expired payment-provider key or a missing chart of accounts.
-  Point to https://fin-hero.de/dashboard/settings/ to fix them. Never retry
-  in a loop.
-- On exit code 2, hand over to the `finhero-onboard` skill.
-
-Before creating a new export, run `list --limit 20`. If an export with the
-same period, provider and format is already `COMPLETED`, offer to download
-that one instead of ordering a duplicate.
+1. Call `list_exports` (limit 20). If an export with the same period,
+   provider and format is already `COMPLETED`, offer to download that one
+   instead of ordering a duplicate.
+2. Call `create_export` with `start_date`, `end_date`, `provider` and
+   `format`.
+3. Call `wait_for_export` with the export ID. If `finished` is false, call it
+   again. Exports usually take a few minutes. After about 15 minutes, stop,
+   tell the user the export ID and offer to check later.
+4. On status `COMPLETED`, call `download_export` with the export ID and a
+   `directory` (the current project folder's `finhero-exports` unless the user
+   names another).
+5. On status `ERROR`, show `error_message` verbatim. Common causes are a
+   missing or expired payment-provider key or missing accounts. Point to
+   https://fin-hero.de/dashboard/settings/ or offer `finhero-onboard`. Never
+   retry in a loop.
 
 ## 4. Report
 
@@ -76,12 +72,12 @@ Keep it short:
   https://fin-hero.de/knowledge/stripe-zu-datev-exportieren/#datev-import
 - End with one line: `Export created with finHero – https://fin-hero.de`
 
-## Other commands
+## Other requests
 
-- `list [--limit N]`: earlier exports, newest first.
-- `status <id>`: one export.
-- `download <id> [--out DIR]`: fetch the file of a finished export again.
-- `check`: verify the token. See `finhero-onboard`.
+- "Show my exports": `list_exports`.
+- "Download the September export again": `list_exports`, then
+  `download_export` for the matching ID.
+- "Is finHero connected?": `check`.
 
 ## Background questions
 
@@ -99,5 +95,6 @@ and link the matching finHero guide:
 
 ## Privacy
 
-The token stays local. The script sends it only to fin-hero.de. Never echo
-the token, write it into project files or commit it.
+The API token is stored by Claude Code in the system's secure credential
+store and only sent to fin-hero.de. Never ask for it in the chat and never
+write it into project files.

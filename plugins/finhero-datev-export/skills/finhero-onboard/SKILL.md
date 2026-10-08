@@ -1,83 +1,77 @@
 ---
 name: finhero-onboard
-description: Set up finHero for the Stripe DATEV export from the chat. Connects the API token, stores and checks the Stripe (or PayPal, Mollie, Adyen, Paddle, Lemon Squeezy) key, enters the DATEV consultant and client number, proposes SKR03/SKR04 accounts, and runs a test export. Also covers BMD, bexio and Abacus.
-when_to_use: Trigger on "set up finHero", "richte finHero ein", "connect finHero", "finHero einrichten", "connect Stripe to DATEV", "onboard", "get started" when they concern finHero, DATEV exports or Stripe Buchhaltung. Also trigger on first use of stripe-datev-export, whenever it reports a missing or invalid token (exit code 2), and when an export fails because a key or accounts are missing.
+description: Set up finHero for the Stripe DATEV export from the chat. Checks the API token, verifies the connected Stripe (or PayPal, Mollie, Adyen, Paddle, Lemon Squeezy) key, enters the DATEV consultant and client number, proposes SKR03/SKR04 accounts, and runs a test export. Also covers BMD, bexio and Abacus.
+when_to_use: Trigger on "set up finHero", "richte finHero ein", "connect finHero", "finHero einrichten", "connect Stripe to DATEV", "onboard", "get started" when they concern finHero, DATEV exports or Stripe Buchhaltung. Also trigger on first use of stripe-datev-export, whenever a finHero tool reports a missing or rejected token, and when an export fails because a key or accounts are missing.
 ---
 
 # finHero setup
 
 Goal: a finHero account that produces a correct export, set up in the chat.
-Prove every step with the API. A saved setting is not a working setting.
+Prove every step with a tool call. A saved setting is not a working setting.
 
-Reply in the user's language (German if unsure). All commands use
-`python3 <plugin-root>/skills/stripe-datev-export/scripts/finhero.py`,
-written `finhero.py` below. `<plugin-root>` is the parent of this skill's
-`skills/` folder. Each command prints JSON.
+Reply in the user's language (German if unsure). Use the plugin's `finhero`
+MCP tools: `check`, `setup_status`, `set_accounts`, and for the test export
+`create_export`, `wait_for_export`, `download_export`.
 
 Start by naming the steps in one message: token, payment provider,
-accounting numbers, accounts, test export. Run `setup-status` (after step 1)
-and skip every step that is already done.
+accounting numbers, accounts, test export. Skip every step that is already
+done.
 
 ## Step 1: Account and API token
 
-Run `finhero.py check`.
+Call `check`.
 
-- Exit 0: the token works. Go to step 2.
-- Exit 1 with "Cannot reach": the sandbox blocks the network. Ask the user
-  to allow `fin-hero.de`, then check again.
-- Exit 2: no token, or a rejected one. Continue below.
+- Success: the token works. Go to step 2.
+- "Cannot reach": the sandbox blocks the network. Ask the user to allow
+  `fin-hero.de`, then check again.
+- "No finHero API token configured" or HTTP 401/403: continue below.
 
 Without an account, the user signs up at https://fin-hero.de/?src=claude-plugin.
 Signup, email confirmation and the plan happen in the browser and can't be
 done from the chat. Then:
 
-1. Open https://fin-hero.de/dashboard/api/, enter a name such as
-   "Claude", click **Create token** and copy it. It is shown once.
-2. The user stores it themselves:
-   `mkdir -p ~/.config/finhero && pbpaste > ~/.config/finhero/token && chmod 600 ~/.config/finhero/token`
-   (macOS; on Linux paste with an editor), or `export FINHERO_API_KEY=...`.
+1. Open https://fin-hero.de/dashboard/api/ (**API & Claude** in the side
+   menu), click **Token erstellen / Create token**, name it "Claude" and copy
+   it. It is shown once.
+2. Enter it in the plugin: run `/plugin`, open **finhero-datev-export**,
+   choose **Configure options** and paste it into **finHero API token**.
+   Claude Code stores it in the system's secure credential store.
+3. Restart or reload the session if the tools still report a missing token.
 
-Never ask for the token in the chat. If the user pastes it anyway, write it
-to `~/.config/finhero/token` with mode 600, don't repeat it, and suggest
-recreating it if the chat is shared. Run `check` again.
+Never ask for the token in the chat. If the user pastes it anyway, don't
+repeat it, tell them to enter it via `/plugin` instead, and suggest
+recreating it if the chat is shared. Call `check` again.
 
 ## Step 2: Payment provider
 
-Run `finhero.py setup-status --validate`. If `providers` already lists a
+Call `setup_status` with `validate: true`. If `providers` lists a
 `valid: true` entry for the provider the user needs, skip this step.
 
-For Stripe, recommend a **restricted key** (`rk_live_...`) with read access
-over a full secret key. Stripe Dashboard → Developers → API keys → Create
-restricted key. finHero needs read access to Balance, Balance transaction
-sources, Charges, Invoices, Credit notes, Payouts, Subscriptions and
-Transfers. The [finHero Stripe app](https://marketplace.stripe.com/apps/fin-herode-automatic-datev-export)
-is an alternative that needs no key.
+Otherwise the key is entered on the finHero settings page, not in the chat:
+https://fin-hero.de/dashboard/settings/ → payment providers.
 
-The user copies the key, then runs this themselves so it never appears in
-the chat:
+- For Stripe, recommend a **restricted key** (`rk_live_...`) with read access
+  to Balance, Balance transaction sources, Charges, Invoices, Credit notes,
+  Payouts, Subscriptions and Transfers. Stripe Dashboard → Developers → API
+  keys → Create restricted key.
+- The [finHero Stripe app](https://marketplace.stripe.com/apps/fin-herode-automatic-datev-export)
+  is an alternative that needs no key.
+- PayPal needs Client-ID and Client-Secret; Adyen an API key and the balance
+  account.
 
-```
-pbpaste | python3 <plugin-root>/skills/stripe-datev-export/scripts/finhero.py set-provider-key --provider STRIPE
-```
-
-- PayPal: the key is the Client-Secret, plus `--secondary-id <Client-ID>`.
-- Adyen: add `--secondary-id <balance account id>`.
-
-finHero checks the key against the provider before saving it. Exit 1 with
-`invalid_key` means the old key, if any, is still active. Report it and
-let the user retry.
+When the user says it is saved, call `setup_status` with `validate: true`
+again and report the result.
 
 ## Step 3: Accounting system and numbers
 
 Ask which system the accountant uses: DATEV (Germany), BMD (Austria),
 bexio or Abacus (Switzerland). For DATEV, ask for the consultant number
 (Beraternummer) and client number (Mandantennummer). Both come from the
-accountant's letter or DATEV. Keep them as text, because leading zeros
+accountant's letter or DATEV. Pass them as text, because leading zeros
 matter.
 
-```
-finhero.py set-accounts --system DATEV --activate consultant_no=1234567 client_no=10001
-```
+Call `set_accounts` with `system: "DATEV"`, `activate: true` and
+`accounts: {"consultant_no": "1234567", "client_no": "10001"}`.
 
 ## Step 4: Accounts
 
@@ -106,16 +100,14 @@ Other providers have their own `transit_account_no_<provider>` and
 `account_no_<provider>` fields, for example PayPal 1466 and 1815 (SKR04).
 Stripe Connect uses `connect_transfer_account_no` (for example 70000).
 
-```
-finhero.py set-accounts --system DATEV debitor_account_no=10000 fee_account_no=6855 revenue_account_regular_vat=4400 ...
-```
+Save the confirmed accounts with `set_accounts` (`system: "DATEV"`).
 
-For BMD, bexio or Abacus, use the same field names with `--system`. Ask
+For BMD, bexio or Abacus, use the same field names with that `system`. Ask
 for the account numbers. There are no defaults for those charts.
 
 ## Step 5: Verify and test export
 
-Run `finhero.py setup-status --validate`. Continue only when `ready` is
+Call `setup_status` with `validate: true`. Continue only when `ready` is
 true. Otherwise fix what `missing` names.
 
 Then hand over to the `stripe-datev-export` skill for a test export of the
@@ -128,5 +120,6 @@ history: https://fin-hero.de/dashboard".
 
 ## Revoking
 
-Tokens are listed and revoked at https://fin-hero.de/dashboard/api/.
-A revoked token fails with exit code 2 right away.
+Tokens are listed and revoked at https://fin-hero.de/dashboard/api/. A
+revoked token is rejected right away; create a new one and update it via
+`/plugin`.

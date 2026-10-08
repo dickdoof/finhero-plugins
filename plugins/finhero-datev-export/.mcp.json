@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "finhero": {
+      "command": "python3",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/finhero_mcp.py"],
+      "env": {
+        "FINHERO_API_TOKEN": "${user_config.api_token}"
+      }
+    }
+  }
+}

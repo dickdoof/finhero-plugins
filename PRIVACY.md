@@ -2,11 +2,14 @@
 
 The finHero plugins run locally in your Claude or Codex client.
 
-- **Token:** your finHero API token is read from `FINHERO_API_KEY` or
-  `~/.config/finhero/token`. It is sent only to `https://fin-hero.de` in the
+- **Token:** your finHero API token is entered as a plugin option and kept by
+  Claude Code in your system's secure credential store. The bundled MCP server
+  receives it from Claude Code and sends it only to `https://fin-hero.de` in the
   `Authorization` header.
-- **Requests:** the plugin creates exports, reads their status and downloads
-  the finished files. It doesn't read or upload anything else.
+- **Requests:** the plugin creates exports, reads their status, downloads the
+  finished files, reads the setup status and saves the account numbers you
+  confirm. Payment provider keys are entered on fin-hero.de, never through the
+  plugin. It doesn't read or upload anything else.
 - **Files:** downloaded exports are saved in the folder you choose (default
   `./finhero-exports`). Nothing is uploaded to third parties.
 - **finHero:** the processing of your payment data by finHero is covered by
