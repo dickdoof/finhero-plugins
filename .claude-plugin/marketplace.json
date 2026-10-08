@@ -1,0 +1,16 @@
+{
+  "name": "finhero",
+  "owner": {
+    "name": "finHero",
+    "email": "support@fin-hero.de"
+  },
+  "description": "finHero skills for Stripe Buchhaltung and DATEV exports",
+  "plugins": [
+    {
+      "name": "stripe-datev-export",
+      "displayName": "Stripe DATEV Export by finHero",
+      "source": "./plugins/stripe-datev-export",
+      "description": "Create and download finHero exports of Stripe, PayPal, Mollie, Adyen, Paddle and Lemon Squeezy transactions for any period: DATEV Buchungsstapel with fees, refunds, payouts, receipts and PRAP list, or BMD, bexio and Abacus."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "stripe-datev-export",
+  "version": "2026.10.0",
+  "homepage": "https://fin-hero.de",
+  "repository": "https://github.com/dickdoof/finhero-plugins",
+  "interface": {
+    "displayName": "Stripe DATEV Export by finHero",
+    "shortDescription": "Stripe to DATEV export",
+    "longDescription": "Create and download finHero exports of Stripe, PayPal, Mollie, Adyen, Paddle and Lemon Squeezy transactions for any period: DATEV Buchungsstapel with fees, refunds, payouts, receipts and PRAP list, or BMD, bexio and Abacus.",
+    "developerName": "finHero",
+    "category": "Productivity",
+    "capabilities": [
+      "Create DATEV, BMD, bexio or Abacus exports for any period",
+      "Download finished exports",
+      "List and re-download earlier exports"
+    ],
+    "privacyPolicyURL": "https://github.com/dickdoof/finhero-plugins/blob/main/PRIVACY.md",
+    "brandColor": "#059669",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png",
+    "websiteURL": "https://fin-hero.de",
+    "defaultPrompt": [
+      "Set me up",
+      "Erstelle den DATEV-Export für letzten Monat",
+      "Export Stripe to DATEV for Q3"
+    ]
+  },
+  "author": {
+    "name": "finHero",
+    "email": "support@fin-hero.de",
+    "url": "https://fin-hero.de"
+  },
+  "description": "Create and download finHero exports of Stripe, PayPal, Mollie, Adyen, Paddle and Lemon Squeezy transactions for any period: DATEV Buchungsstapel with fees, refunds, payouts, receipts and PRAP list, or BMD, bexio and Abacus.",
+  "skills": "./skills/"
+}
