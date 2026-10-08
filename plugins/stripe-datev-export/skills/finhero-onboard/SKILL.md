@@ -31,7 +31,7 @@ Without an account, the user signs up at https://fin-hero.de/?src=claude-plugin.
 Signup, email confirmation and the plan happen in the browser and can't be
 done from the chat. Then:
 
-1. Open https://fin-hero.de/dashboard/settings/#api, enter a name such as
+1. Open https://fin-hero.de/dashboard/api/, enter a name such as
    "Claude", click **Create token** and copy it. It is shown once.
 2. The user stores it themselves:
    `mkdir -p ~/.config/finhero && pbpaste > ~/.config/finhero/token && chmod 600 ~/.config/finhero/token`
@@ -128,5 +128,5 @@ history: https://fin-hero.de/dashboard".
 
 ## Revoking
 
-Tokens are listed and revoked at https://fin-hero.de/dashboard/settings/#api.
+Tokens are listed and revoked at https://fin-hero.de/dashboard/api/.
 A revoked token fails with exit code 2 right away.

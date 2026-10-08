@@ -54,7 +54,7 @@ codex plugin add stripe-datev-export@finhero
    Stripe (API key or [Stripe app](https://marketplace.stripe.com/apps/fin-herode-automatic-datev-export))
    and enter your DATEV consultant and client number.
 2. Create an API token under
-   [Settings → API & Claude](https://fin-hero.de/dashboard/settings/#api).
+   [API & Claude (side menu)](https://fin-hero.de/dashboard/api/).
 3. Save it locally, then say **"Richte finHero ein"** / **"Set up finHero"**. Claude connects Stripe, enters your DATEV numbers and accounts, and runs a test export:
 
 ```bash

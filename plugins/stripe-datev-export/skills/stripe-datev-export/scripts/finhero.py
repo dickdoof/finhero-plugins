@@ -2,7 +2,7 @@
 """finHero API client for the stripe-datev-export plugin. Standard library only.
 
 Token: FINHERO_API_KEY env var, or the first line of ~/.config/finhero/token.
-Create one at https://fin-hero.de/dashboard/settings/#api
+Create one at https://fin-hero.de/dashboard/api/
 
   finhero.py check
   finhero.py list [--limit N]
@@ -30,7 +30,7 @@ from pathlib import Path
 
 BASE_URL = os.environ.get("FINHERO_BASE_URL", "https://fin-hero.de").rstrip("/")
 TOKEN_FILE = Path.home() / ".config" / "finhero" / "token"
-SETTINGS_URL = "https://fin-hero.de/dashboard/settings/#api"
+SETTINGS_URL = "https://fin-hero.de/dashboard/api/"
 USER_AGENT = "finhero-claude-plugin/2026.10.0"
 PROVIDERS = ["STRIPE", "ADYEN", "MOLLIE", "PADDLE", "LEMONSQUEEZY", "PAYPAL"]
 FORMATS = ["DATEV", "BMD", "BEXIO", "ABACUS"]
