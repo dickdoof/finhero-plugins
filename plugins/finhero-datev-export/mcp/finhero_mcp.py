@@ -18,9 +18,9 @@ from pathlib import Path
 BASE_URL = os.environ.get("FINHERO_BASE_URL", "https://fin-hero.de").rstrip("/")
 API_PAGE = "https://fin-hero.de/dashboard/api/"
 SETTINGS_PAGE = "https://fin-hero.de/dashboard/settings/"
-USER_AGENT = "finhero-claude-plugin/1.3.0"
+USER_AGENT = "finhero-claude-plugin/1.4.0"
 PROTOCOL_VERSION = "2025-06-18"
-PROVIDERS = ["STRIPE", "ADYEN", "MOLLIE", "PADDLE", "LEMONSQUEEZY", "PAYPAL"]
+PROVIDERS = ["STRIPE", "ADYEN", "MOLLIE", "PADDLE", "LEMONSQUEEZY", "PAYPAL", "GOCARDLESS"]
 FORMATS = ["DATEV", "BMD", "BEXIO", "ABACUS"]
 DONE, FAILED = "COMPLETED", "ERROR"
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -211,7 +211,7 @@ def handle(msg):
     if method == "initialize":
         result = {"protocolVersion": msg.get("params", {}).get("protocolVersion", PROTOCOL_VERSION),
                   "capabilities": {"tools": {}},
-                  "serverInfo": {"name": "finhero", "version": "1.3.0"}}
+                  "serverInfo": {"name": "finhero", "version": "1.4.0"}}
     elif method == "ping":
         result = {}
     elif method == "tools/list":

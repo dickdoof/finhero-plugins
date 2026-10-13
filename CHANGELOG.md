@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026.10.5
+
+- GoCardless: `create_export` accepts `GOCARDLESS`. The onboarding skill explains the
+  OAuth connection (no key, `oauth_providers` in `setup_status`), the GoCardless
+  accounts and the dashboard-only settings (invoice-number pattern,
+  Versteuerungsart); the export skill notes the 6-month payout-item limit and the
+  Soll default. Links to the GoCardless user guide.
+
 ## 2026.10.4
 
 - The finHero API token is now a sensitive plugin option (`userConfig.api_token`),

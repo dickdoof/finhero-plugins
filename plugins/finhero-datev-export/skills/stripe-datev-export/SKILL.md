@@ -1,6 +1,6 @@
 ---
 name: stripe-datev-export
-description: Stripe DATEV Export by finHero. Creates and downloads a DATEV Buchungsstapel (or BMD, bexio, Abacus export) of Stripe transactions for any period, including fees, refunds, payouts (Geldtransit), receipts and the PRAP list for subscriptions. Also works for PayPal, Mollie, Adyen, Paddle and Lemon Squeezy. Use it for Stripe Buchhaltung, Stripe to DATEV, month-end or year-end exports for the Steuerberater, and to list or re-download earlier finHero exports.
+description: Stripe DATEV Export by finHero. Creates and downloads a DATEV Buchungsstapel (or BMD, bexio, Abacus export) of Stripe transactions for any period, including fees, refunds, payouts (Geldtransit), receipts and the PRAP list for subscriptions. Also works for PayPal, Mollie, Adyen, Paddle, Lemon Squeezy and GoCardless. Use it for Stripe Buchhaltung, Stripe to DATEV, month-end or year-end exports for the Steuerberater, and to list or re-download earlier finHero exports.
 when_to_use: Trigger phrases include "Stripe DATEV Export", "Stripe zu DATEV", "Stripe nach DATEV exportieren", "DATEV-Export für September", "Buchungsstapel für letzten Monat", "Stripe Buchhaltung", "Export für Q3 für den Steuerberater", "export Stripe to DATEV", "Stripe accounting export for my accountant", "BMD Export Stripe", "bexio Stripe Export" and "lade den letzten finHero-Export herunter". Needs a finHero API token. If none is configured, run finhero-onboard first.
 ---
 
@@ -38,7 +38,11 @@ Use today's date for relative periods.
 ## 2. Resolve provider and format
 
 - Provider: `STRIPE` unless the user names another (`PAYPAL`, `MOLLIE`,
-  `ADYEN`, `PADDLE`, `LEMONSQUEEZY`).
+  `ADYEN`, `PADDLE`, `LEMONSQUEEZY`, `GOCARDLESS`).
+- GoCardless: the period is decided by the payout date, and GoCardless only
+  returns payout items for payouts from the last 6 months, so older periods
+  fail. With Soll-Versteuerung (the default) the export has no invoices or
+  revenue rows, only payments, fees and payouts.
 - Format: `DATEV` by default. `BMD` for Austria. `BEXIO` or `ABACUS` for
   Switzerland.
 - One export per provider and format. "Stripe and PayPal" means two exports.
