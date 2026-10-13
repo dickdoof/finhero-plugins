@@ -8,7 +8,7 @@ Claude Code, Claude Cowork or Codex:
 Claude works out the period, orders the export from [finHero](https://fin-hero.de),
 waits until it is ready and saves the ZIP. The ZIP contains the DATEV
 Buchungsstapel with fees, refunds and payouts, the receipts, and the PRAP list
-for subscriptions. It works for Stripe, PayPal, Mollie, Adyen, Paddle and Lemon
+for subscriptions. It works for Stripe, PayPal, Mollie, Adyen, Paddle, GoCardless and Lemon
 Squeezy, with DATEV, BMD, bexio or Abacus as the target system.
 
 ## Skills

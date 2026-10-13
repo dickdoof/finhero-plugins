@@ -65,8 +65,8 @@ codex plugin add finhero-datev-export@finhero
 
 | Skill | What it does |
 |---|---|
-| `finhero-onboard` | Sets up finHero in the chat: checks the API token and the connected Stripe (or PayPal, Mollie…) key, enters the DATEV consultant and client number, proposes SKR03/SKR04 accounts and runs a test export. |
-| `stripe-datev-export` | Turns "last month", "Q3 2026" or "September" into a date range. Creates the export (DATEV, BMD, bexio or Abacus) for Stripe, PayPal, Mollie, Adyen, Paddle or Lemon Squeezy, waits and downloads it. It can also list and re-download earlier exports. |
+| `finhero-onboard` | Sets up finHero in the chat: checks the API token and the connected Stripe (or PayPal, Mollie, GoCardless…) connection, enters the DATEV consultant and client number, proposes SKR03/SKR04 accounts and runs a test export. |
+| `stripe-datev-export` | Turns "last month", "Q3 2026" or "September" into a date range. Creates the export (DATEV, BMD, bexio or Abacus) for Stripe, PayPal, Mollie, Adyen, Paddle, Lemon Squeezy or GoCardless, waits and downloads it. It can also list and re-download earlier exports. |
 
 The skills use the plugin's bundled `finhero` MCP server
 (`mcp/finhero_mcp.py`, Python standard library only) with the tools

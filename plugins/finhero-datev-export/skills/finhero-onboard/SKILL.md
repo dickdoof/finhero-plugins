@@ -1,6 +1,6 @@
 ---
 name: finhero-onboard
-description: Set up finHero for the Stripe DATEV export from the chat. Checks the API token, verifies the connected Stripe (or PayPal, Mollie, Adyen, Paddle, Lemon Squeezy) key, enters the DATEV consultant and client number, proposes SKR03/SKR04 accounts, and runs a test export. Also covers BMD, bexio and Abacus.
+description: Set up finHero for the Stripe DATEV export from the chat. Checks the API token, verifies the connected Stripe (or PayPal, Mollie, Adyen, Paddle, Lemon Squeezy, GoCardless) connection, enters the DATEV consultant and client number, proposes SKR03/SKR04 accounts, and runs a test export. Also covers BMD, bexio and Abacus.
 when_to_use: Trigger on "set up finHero", "richte finHero ein", "connect finHero", "finHero einrichten", "connect Stripe to DATEV", "onboard", "get started" when they concern finHero, DATEV exports or Stripe Buchhaltung. Also trigger on first use of stripe-datev-export, whenever a finHero tool reports a missing or rejected token, and when an export fails because a key or accounts are missing.
 ---
 
@@ -58,6 +58,12 @@ https://fin-hero.de/dashboard/settings/ → payment providers.
   is an alternative that needs no key.
 - PayPal needs Client-ID and Client-Secret; Adyen an API key and the balance
   account.
+- GoCardless has no key: the user clicks "Mit GoCardless verbinden" in the
+  GoCardless tab, signs in at GoCardless and grants read-only access (OAuth).
+  `setup_status` lists it under `oauth_providers`. finHero is an official
+  GoCardless partner. Guide with screenshots:
+  https://fin-hero.de/guides/gocardless-datev-guide-de.pdf (also `-en`, `-fr`,
+  `-it`).
 
 When the user says it is saved, call `setup_status` with `validate: true`
 again and report the result.
@@ -97,7 +103,14 @@ accountant confirm them. Only send what was confirmed.
 | `account_no_stripe` | 1810 | 1210 | Stripe balance |
 
 Other providers have their own `transit_account_no_<provider>` and
-`account_no_<provider>` fields, for example PayPal 1466 and 1815 (SKR04).
+`account_no_<provider>` fields, for example PayPal 1466 and 1815 (SKR04) or
+GoCardless 1467 and 1816 (SKR04: `transit_account_no_gocardless`,
+`account_no_gocardless`). The export fails without them.
+
+For GoCardless two more settings live in the dashboard, not in the chat:
+the invoice-number pattern for Belegfeld 1 (default: the last part of the
+payment reference that contains digits) and the Versteuerungsart (Soll by
+default: no revenue rows, invoices come from the invoicing software).
 Stripe Connect uses `connect_transfer_account_no` (for example 70000).
 
 Save the confirmed accounts with `set_accounts` (`system: "DATEV"`).
