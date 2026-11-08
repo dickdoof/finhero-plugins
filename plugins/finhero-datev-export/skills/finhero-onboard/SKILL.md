@@ -54,7 +54,7 @@ https://fin-hero.de/dashboard/settings/ → payment providers.
   to Balance, Balance transaction sources, Charges, Invoices, Credit notes,
   Payouts, Subscriptions and Transfers. Stripe Dashboard → Developers → API
   keys → Create restricted key.
-- The [finHero Stripe app](https://marketplace.stripe.com/apps/fin-herode-automatic-datev-export)
+- The [finHero Stripe app](https://marketplace.stripe.com/apps/finhero-export-to-datev-bmd-bexio)
   is an alternative that needs no key.
 - PayPal needs Client-ID and Client-Secret; Adyen an API key and the balance
   account.
