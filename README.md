@@ -51,7 +51,7 @@ codex plugin add finhero-datev-export@finhero
 ## Set up
 
 1. Create a free account at [fin-hero.de](https://fin-hero.de). Connect
-   Stripe (API key or [Stripe app](https://marketplace.stripe.com/apps/fin-herode-automatic-datev-export))
+   Stripe (API key or [Stripe app](https://marketplace.stripe.com/apps/finhero-export-to-datev-bmd-bexio))
    and enter your DATEV consultant and client number.
 2. Create an API token under
    [API & Claude (side menu)](https://fin-hero.de/dashboard/api/).
